@@ -14,9 +14,24 @@ import java.util.List;
 
 public class PushReceiver extends FrontiaPushMessageReceiver {
 
+    private static final String LOG_TAG = PushReceiver.class.getSimpleName();
+    private static final String TYPE_PUSH_INIT_CLIENT = "push_init_client";
+
     @Override
-    public void onBind(Context context, int errorCode, String appid, String userId, String channelId, String requestId) {
-        Log.d("push", "onBind");
+    public void onBind(Context context, int errorCode, String appId, String userId, String channelId, String requestId) {
+        Log.d(LOG_TAG, "onBind");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("type", TYPE_PUSH_INIT_CLIENT);
+            JSONObject data = new JSONObject();
+            data.put("appId", appId);
+            data.put("userId", userId);
+            data.put("channelId", channelId);
+            jsonObject.put("data", data);
+            sendPushData(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -41,42 +56,41 @@ public class PushReceiver extends FrontiaPushMessageReceiver {
 
     @Override
     public void onMessage(Context context, String message, String customContentString) {
-        Log.d("push", "onMessage");
+        Log.d(LOG_TAG, "onMessage");
+        sendPushData(customContentString);
     }
 
     @Override
     public void onNotificationClicked(Context context, String s, String s2, String customContentString) {
-        Log.d("push", "onNotificationClicked");
-        sendPushInfo(customContentString);
+        Log.d(LOG_TAG, "onNotificationClicked");
+        sendPushData(customContentString);
     }
 
     @Override
     public void onNotificationArrived(Context context, String s, String s2, String customContentString) {
-        Log.d("push", "onNotificationArrived");
-        sendPushInfo(customContentString);
+        Log.d(LOG_TAG, "onNotificationArrived");
+        sendPushData(customContentString);
     }
 
-    private void sendPushInfo(String customContentString)
-    {
-        JSONObject data = new JSONObject();
-        Log.d("push", "sendPushInfo");
-        try
-        {
-            Log.d("push content", "" + customContentString);
-            if (customContentString != null && !customContentString.equals("")) {
-                data = new JSONObject(customContentString);
-            }
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-        if (PushNotification.pushCallbackContext != null)
-        {
-            PluginResult result = new PluginResult(PluginResult.Status.OK, data);
+    private void sendPushData(JSONObject jsonObject) {
+        Log.d(LOG_TAG, "sendPushData: " + (jsonObject != null ? jsonObject.toString() : "null"));
+        if (PushNotification.pushCallbackContext != null) {
+            PluginResult result = new PluginResult(PluginResult.Status.OK, jsonObject);
             result.setKeepCallback(true);
             PushNotification.pushCallbackContext.sendPluginResult(result);
         }
+    }
+
+    private void sendPushData(String customContentString) {
+        JSONObject data = new JSONObject();
+        try {
+            if (customContentString != null && !customContentString.equals("")) {
+                data = new JSONObject(customContentString);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        sendPushData(data);
     }
 
 

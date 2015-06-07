@@ -77,6 +77,7 @@
             </receiver>
         </config-file>
         <source-file src="src/android/PushNotification.java" target-dir="src/com/sck/plugin/baidupush" />
+        <source-file src="src/android/PushReceiver.java" target-dir="src/com/sck/plugin/baidupush" />
         <source-file src="src/android/armeabi/libbdpush_V2_2.so" target-dir="libs/armeabi" />
         <source-file src="src/android/armeabi/libbdpush_V2_2.so" target-dir="libs/armeabi-v7a" />
         <source-file src="src/android/mips/libbdpush_V2_2.so" target-dir="libs/mips" />

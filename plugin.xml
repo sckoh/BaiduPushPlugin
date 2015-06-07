@@ -5,12 +5,12 @@
     <license>Apache 2.0</license>
     <keywords>baidu,push</keywords>
     <js-module src="www/PushNotification.js" name="PushNotification">
-        <clobbers target="pushNotification" />
+        <clobbers target="PushNotification" />
     </js-module>
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="FGPushNotification">
+            <feature name="PushNotification">
                 <param name="android-package" value="com.sck.plugin.baidupush.PushNotification" />
             </feature>
         </config-file>

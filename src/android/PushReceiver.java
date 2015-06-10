@@ -2,9 +2,12 @@ package com.sck.plugin.baidupush;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import com.baidu.android.pushservice.PushConstants;
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
+import com.ifast.leave.mobile.MainActivity;
 
 import org.apache.cordova.PluginResult;
 import org.json.JSONException;
@@ -61,9 +64,15 @@ public class PushReceiver extends FrontiaPushMessageReceiver {
     }
 
     @Override
-    public void onNotificationClicked(Context context, String s, String s2, String customContentString) {
+    public void onNotificationClicked(Context context, String title, String description, String customContentString) {
         Log.d(LOG_TAG, "onNotificationClicked");
-        sendPushData(customContentString);
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setClass(context, MainActivity.class);
+        intent.putExtra(PushConstants.EXTRA_NOTIFICATION_TITLE, title);
+        intent.putExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT, customContentString);
+        context.startActivity(intent);
     }
 
     @Override

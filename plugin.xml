@@ -84,4 +84,24 @@
         <source-file src="src/android/x86/libbdpush_V2_2.so" target-dir="libs/x86" />
         <source-file src="src/android/pushservice-4.4.1.88.jar" target-dir="libs" />
     </platform>
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="PushNotification">
+                <param name="ios-package" value="PushNotification" />
+            </feature>
+        </config-file>
+        <!-- push lib -->
+        <header-file src="src/ios/lib/BPush.h" />
+        <source-file src="src/ios/lib/libBPush.a" framework="true" />
+        <source-file src="src/ios/AppDelegate+notification.m" />
+        <header-file src="src/ios/AppDelegate+notification.h" />
+        <header-file src="src/ios/PushNotification.h" />
+        <source-file src="src/ios/PushNotification.m" />
+        <framework src="Foundation.framework" />
+        <framework src="CoreTelephony.framework" />
+        <framework src="SystemConfiguration.framework" />
+        <framework src="libz.dylib" />
+        <framework src="libc++.dylib" />
+        <framework src="Security.framework" />
+    </platform>
 </plugin>

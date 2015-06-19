@@ -89,13 +89,10 @@ static char launchNotificationKey;
 {
     NSLog(@"test:%@",deviceToken);
     [BPush registerDeviceToken:deviceToken];
-    [BPush bindChannelWithCompleteHandler:^(id result, NSError *error) {
-        [self.viewController addLogString:[NSString stringWithFormat:@"Method: %@\n%@",BPushRequestMethodBind,result]];
-    }];
     
     // 打印到日志 textView 中
-    [self.viewController addLogString:[NSString stringWithFormat:@"Register use deviceToken : %@",deviceToken]];
-    
+    NSLog(@"Register use deviceToken : %@",deviceToken);
+//    [self.viewController addLogString:[NSString stringWithFormat:@"Register use deviceToken : %@",deviceToken]];
     
 }
 
@@ -111,7 +108,8 @@ static char launchNotificationKey;
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
 //    PushPlugin *pushHandler = [self getCommandInstance:@"PushPlugin"];
 //    [pushHandler didFailToRegisterForRemoteNotificationsWithError:error];
-    [self.viewController addLogString:[NSString stringWithFormat:@"Fail to register : %@",error]];
+    NSLog(@"Fail to register : %@",error);
+//    [self.viewController addLogString:[NSString stringWithFormat:@"Fail to register : %@",error]];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -170,7 +168,7 @@ static char launchNotificationKey;
 
 - (void)dealloc
 {
-    self.launchNotification	= nil; // clear the association and release the object
+    self.launchNotification = nil; // clear the association and release the object
 }
 
 @end
